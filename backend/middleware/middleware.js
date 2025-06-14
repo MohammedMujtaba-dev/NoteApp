@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 import User from "../Model/user.js";
+import dotenv from "dotenv";
 
+dotenv.config();
 const middleware = async (req, res, next) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
@@ -9,7 +11,7 @@ const middleware = async (req, res, next) => {
       return res.status(404).json({ success: false, message: "Unauthorized" });
     }
 
-    const decoded = jwt.verify(token, "secertkeyofnoteapp123@");
+    const decoded = jwt.verify(token, process.env.SECRET);
 
     if (!decoded) {
       return res.status(404).json({ success: false, message: "Wrong Token" });

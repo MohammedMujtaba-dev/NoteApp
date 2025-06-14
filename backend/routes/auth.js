@@ -2,8 +2,11 @@ import express from "express";
 import User from "../Model/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 import middleware from "../middleware/middleware.js";
 const router = express.Router();
+
+dotenv.config();
 
 router.post("/register", async (req, res) => {
   try {
@@ -58,7 +61,7 @@ router.post("/login", async (req, res) => {
         .json({ success: false, message: "Wrong password" });
     }
 
-    const token = jwt.sign({ id: user._id }, "secertkeyofnoteapp123@", {
+    const token = jwt.sign({ id: user._id }, process.env.SECRET, {
       expiresIn: "6h",
     });
 
